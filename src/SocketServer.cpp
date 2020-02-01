@@ -4,3 +4,8 @@ SocketServer::SocketServer(int port)
 {
 this->_port = port;
 }
+
+
+SocketServer::~SocketServer()
+{
+}

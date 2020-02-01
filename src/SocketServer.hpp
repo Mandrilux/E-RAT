@@ -27,6 +27,8 @@ class SocketServer
     public:
         SocketServer(int port);
         void loop();
+        bool	initialize();
+        void	run();
         ~SocketServer();
 
     protected:

@@ -31,5 +31,6 @@ namespace ERat
 		SocketServer 								_server;
 		std::unique_ptr<std::thread>				_serverThread;
 		std::shared_ptr<SocketClient>				_usedClient;
+		int																	_allClient;
 	};
 }

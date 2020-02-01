@@ -1,6 +1,8 @@
 #ifndef SERVERSOCKET_H
 #define SERVERSOCKET_H
 
+#include <stdlib.h>
+
 #ifdef WIN32 /* si vous êtes sous Windows */
 
 #include <winsock2.h>
@@ -13,6 +15,7 @@
 #include <arpa/inet.h>
 #include <unistd.h> /* close */
 #include <netdb.h> /* gethostbyname */
+
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1)
 typedef int SOCKET;
@@ -32,7 +35,7 @@ class SocketServer
         ~SocketServer();
 
     protected:
-        SOCKET mastersocket;
+        SOCKET _mastersocket;
         int _port;
 };
 

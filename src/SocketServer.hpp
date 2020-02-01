@@ -2,22 +2,23 @@
 #define SERVERSOCKET_H
 
 #include <stdlib.h>
-
-#ifdef WIN32 /* si vous êtes sous Windows */
+#include <iostream>
+#define EXIT_SUCESS 1
+#ifdef WIN32 /* si Windows */
 
 #include <winsock2.h>
 
-#else /* si vous êtes sous Linux */
+#else /* si Linux */
 
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <unistd.h> /* close */
-#include <netdb.h> /* gethostbyname */
+#include <unistd.h>
+#include <netdb.h>
 
 #define INVALID_SOCKET -1
-#define SOCKET_ERROR -1)
+#define SOCKET_ERROR -1
 typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
@@ -29,9 +30,10 @@ class SocketServer
 {
     public:
         SocketServer(int port);
-        void loop();
-        bool	initialize();
         void	run();
+        void loop();
+        bool loopOne(std::function<bool(SOCKET)> func);
+        void close();
         ~SocketServer();
 
     protected:

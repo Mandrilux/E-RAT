@@ -20,6 +20,8 @@ add_executable(erat
         src/String.cpp
         src/SocketServer.cpp
         src/SocketServer.hpp
+        src/SocketClient.cpp
+        src/Message.cpp
 )
 	
 target_link_libraries(erat pthread)

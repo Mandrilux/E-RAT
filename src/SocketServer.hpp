@@ -26,19 +26,24 @@ typedef struct in_addr IN_ADDR;
 
 #endif
 
+#include "SocketClient.hpp"
+#include <vector>
+
 class SocketServer
 {
     public:
         SocketServer(int port);
         void	run();
         void loop();
-        bool loopOne(std::function<bool(SOCKET)> func);
         void close();
         ~SocketServer();
 
     protected:
         SOCKET _mastersocket;
         int _port;
+
+    private:
+        std::vector<std::shared_ptr<SocketClient> > _clients;
 };
 
 

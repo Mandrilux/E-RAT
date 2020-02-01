@@ -51,22 +51,18 @@ void SocketServer::close()
   ::close(_mastersocket);
 }
 
-
-bool SocketServer::loopOne(std::function<bool(SOCKET)> func)
+void  SocketServer::loop()
 {
-    // Nouvelle connexion
     sockaddr_in csin = { 0 };
     unsigned int sinsize = sizeof csin;
-    SOCKET csock_tmp = accept(_mastersocket, (sockaddr *)&csin, &sinsize);
+    SOCKET csock_tmp;
 
-    if(csock_tmp != INVALID_SOCKET)
+    while ((csock_tmp = accept(_mastersocket, (sockaddr *)&csin, &sinsize)))
     {
-        func(csock_tmp);
-        ::close(csock_tmp);
+		auto client = std::make_shared<SocketClient>(csock_tmp);
+
+		client->start();
+
+		_clients.push_back(client);
     }
-    else
-    {
-        perror("accept()");
-    }
-    return true;
 }

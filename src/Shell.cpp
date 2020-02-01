@@ -50,11 +50,13 @@ namespace ERat
 		else {
 			std::cout << "Calling execute command with: " << commandLine << std::endl;
 		}
+		return true;
 	}
 
 	bool	Shell::listClients(std::list<cpp::String> const&)
 	{
 		std::cout << "Connected clients list:" << std::endl;
+		return true;
 	}
 
 	Shell::~Shell() = default;

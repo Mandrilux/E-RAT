@@ -1,5 +1,6 @@
 #include "SocketServer.hpp"
 
-SocketServer::SocketServer(int port): _port(port)
+SocketServer::SocketServer(int port)
 {
+this->_port = port;
 }

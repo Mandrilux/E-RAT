@@ -1,11 +1,17 @@
 #include "SocketClient.hpp"
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <netdb.h>
 
 #include <unistd.h>
 #include <iostream>
 
-SocketClient::SocketClient(int fd): _fd(fd)
+SocketClient::SocketClient(int fd, sockaddr_in client_addr): _fd(fd)
 {
-
+	_ip = inet_ntoa(client_addr.sin_addr);
 }
 
 void	SocketClient::start()
@@ -27,6 +33,10 @@ void	SocketClient::loop()
 	}
 }
 
+std::string const&	SocketClient::getIp() const {
+	return _ip;
+}
+
 
 void	SocketClient::stop() {
 	_running = false;
@@ -40,6 +50,11 @@ void	SocketClient::close()
 		::close(_fd);
 		_fd = -1;
 	}
+}
+
+void	SocketClient::addMessage(const ERat::Message& message)
+{
+	_messageList.push(message);
 }
 
 SocketClient::~SocketClient() {

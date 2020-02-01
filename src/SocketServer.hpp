@@ -38,6 +38,8 @@ class SocketServer
         void close();
         ~SocketServer();
 
+        std::vector<std::shared_ptr<SocketClient> > const&  getClients() const;
+
     protected:
         SOCKET _mastersocket;
         int _port;

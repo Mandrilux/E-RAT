@@ -18,7 +18,8 @@ void SocketServer::run()
       perror("socket()");
       exit(0);
   }
-
+  int enable = 1;
+	setsockopt(_mastersocket, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
   std::cout << "Socket created" << std::endl;
 
   sockaddr_in sin = { 0 };
@@ -42,7 +43,7 @@ void SocketServer::run()
   }
 
   std::cout << "LISTENING [OK]" << std::endl;
-
+	this->loop();
 }
 
 
@@ -59,10 +60,16 @@ void  SocketServer::loop()
 
     while ((csock_tmp = accept(_mastersocket, (sockaddr *)&csin, &sinsize)))
     {
-		auto client = std::make_shared<SocketClient>(csock_tmp);
+		auto client = std::make_shared<SocketClient>(csock_tmp, csin);
 
+		std::cout << "New client is connected <" << client->getIp() << ">" << std::endl;
 		client->start();
 
 		_clients.push_back(client);
     }
+}
+
+std::vector<std::shared_ptr<SocketClient> > const&	SocketServer::getClients() const 
+{
+	return _clients;
 }

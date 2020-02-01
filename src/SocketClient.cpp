@@ -38,8 +38,7 @@ void	SocketClient::loop()
 					return;
 				}
 				buffer[size] = '\0';
-				std::cout << size << std::endl;
-				std::cout << buffer << std::endl;
+				std::cout << std::endl << "Client <" << this->getIp() << "> says: " << std::endl << buffer << std::endl << "> ";
 			}
 		}
 	}

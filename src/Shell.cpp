@@ -95,6 +95,9 @@ namespace ERat
 				_usedClient = _server.getClients()[i];
 				std::cout << "Use client: " << _usedClient->getIp() << std::endl;
 			}
+			else {
+				std::cout << "Client #" << i << " not found" << std::endl;
+			}
 		}
 		else {
 			std::cout << "Missing socket number" << std::endl;

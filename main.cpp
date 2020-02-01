@@ -1,4 +1,12 @@
+#include "src/Shell.hpp"
+
 int	main()
 {
-	return (0);
+	ERat::Shell	shell;
+
+	if (shell.initialize()) {
+		shell.run();
+		return 0;
+	}
+	return 1;
 }

@@ -59,7 +59,10 @@ namespace ERat
 				std::cout << "You must first select a client (list)" << std::endl;
 				return false;
 			}
-			std::cout << "Calling execute command with: " << commandLine << std::endl;
+			ERat::Message	message(ERat::Message::Cmd);
+
+			message.setBody(commandLine.c_str(), commandLine.size());
+			_usedClient->addMessage(message);
 		}
 		return true;
 	}

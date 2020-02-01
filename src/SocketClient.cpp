@@ -28,7 +28,10 @@ void	SocketClient::loop()
 			auto message = _messageList.front();
 			_messageList.pop();
 
-			std::cout << "Encoded: " << message.encodeHeader() << std::endl;;
+			if (message.encodeHeader()) {
+				message.encodeData();
+				::write(_fd, message.data(), message.totalSize());
+			}
 		}
 	}
 }

@@ -12,14 +12,7 @@ namespace ERat {
     public:
         enum    MessageType {
             Unknown = 0,
-            Cmd = 1,
-            Error = 2,
-            Userlist = 3,
-            ChannelList = 4,
-            Join = 5,
-            Event = 6,
-            Leave = 7,
-            CreateChannel = 8
+            Cmd = 1
         };
 
 

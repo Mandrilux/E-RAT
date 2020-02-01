@@ -58,13 +58,23 @@ void  SocketServer::loop()
     unsigned int sinsize = sizeof csin;
     SOCKET csock_tmp;
 
-    while ((csock_tmp = accept(_mastersocket, (sockaddr *)&csin, &sinsize)))
+    while ((csock_tmp = accept(_mastersocket, (sockaddr *)&csin, &sinsize)) != -1)
     {
 		auto client = std::make_shared<SocketClient>(csock_tmp, csin);
 
 		std::cout << "New client is connected <" << client->getIp() << ">" << std::endl;
 		client->start();
 
+		auto it = _clients.begin();
+		
+		while (it != _clients.end()) {
+			if (!(*it)->isOnline()) {
+				it = _clients.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
 		_clients.push_back(client);
     }
 }

@@ -33,11 +33,20 @@ void	SocketClient::loop()
 				message.encodeData();
 				::write(_fd, message.data(), message.totalSize());
 				auto size = ::read(_fd, buffer, 32623);
+				if (size <= 0) {
+					this->close();
+					return;
+				}
 				buffer[size] = '\0';
+				std::cout << size << std::endl;
 				std::cout << buffer << std::endl;
 			}
 		}
 	}
+}
+
+bool	SocketClient::isOnline() const {
+	return _fd != -1;
 }
 
 std::string const&	SocketClient::getIp() const {

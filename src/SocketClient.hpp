@@ -23,6 +23,7 @@ public:
 	void stop();
 
 	void	addMessage(const ERat::Message& message);
+	bool	isOnline() const;
 
 	std::string const&	getIp() const;
 

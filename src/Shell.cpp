@@ -27,6 +27,21 @@ namespace ERat
 		std::cout << "> ";
 		while (std::getline(std::cin, line))
 		{
+			if (strcmp(line.c_str(), "exit") == 0)
+			{
+				auto clients = _server.getClients();
+				auto it = clients.begin();
+				int i = 0;
+
+				while (it != clients.end()) {
+					std::cout << "Fermeture " << " #" << i << ": " << (*it)->getIp() << std::endl;
+					(*it)->close();
+					++it;
+					++i;
+				}
+				::exit(0);
+			}
+
 			auto tokens = line.tokenize(" \t");
 			if (_map.find(tokens.front()) != _map.end()) {
 				_map[tokens.front()](tokens);
@@ -36,6 +51,9 @@ namespace ERat
 			}
 			if (_usedClient) {
 				std::cout << "[" << _usedClient->getIp() << "]> ";
+			}
+			else if (_allClient == 1){
+				std::cout << "All > ";
 			}
 			else {
 				std::cout << "> ";
@@ -98,6 +116,7 @@ namespace ERat
 		}
 		return true;
 	}
+
 
 	bool	Shell::useClient(std::list<cpp::String> const& args)
 	{

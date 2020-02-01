@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(erat)
 
 if(APPLE)
-    set(CMAKE_CXX_COMPILER g++-7)
+    set(CMAKE_CXX_COMPILER g++)
 endif()
 
 if (NOT MSVC)
@@ -18,6 +18,8 @@ add_executable(erat
         src/Shell.cpp
         src/Shell.hpp
         src/String.cpp
+        src/SocketServer.cpp
+        src/SocketServer.hpp
 )
 	
 target_link_libraries(erat pthread)

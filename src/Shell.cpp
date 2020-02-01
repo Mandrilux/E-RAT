@@ -132,9 +132,13 @@ namespace ERat
 				_usedClient = _server.getClients()[i];
 				std::cout << "Use client: " << _usedClient->getIp() << std::endl;
 			}
-			else{
+			else if (_server.getClients().size() > 0){
 				std::cout << "Use all client" << std::endl;
 				_allClient = 1;
+			}
+			else{
+				std::cout << "Nodody clients" << std::endl;
+				return false;
 			}
 		}
 		else {

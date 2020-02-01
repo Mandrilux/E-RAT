@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(cpp_zia)
+project(erat)
 
 if(APPLE)
     set(CMAKE_CXX_COMPILER g++-7)
@@ -13,11 +13,11 @@ endif()
 
 include_directories(src)
 
-add_executable(cpp_zia
+add_executable(erat
         main.cpp
         src/Shell.cpp
         src/Shell.hpp
         src/String.cpp
 )
 	
-target_link_libraries(cpp_zia pthread)
+target_link_libraries(erat pthread)

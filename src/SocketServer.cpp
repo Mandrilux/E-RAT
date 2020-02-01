@@ -42,7 +42,7 @@ void SocketServer::run()
       exit(errno);
   }
 
-  std::cout << "LISTENING [OK]" << std::endl;
+  std::cout << "Server is running " << std::endl;
 	this->loop();
 }
 
@@ -66,7 +66,7 @@ void  SocketServer::loop()
 		client->start();
 
 		auto it = _clients.begin();
-		
+
 		while (it != _clients.end()) {
 			if (!(*it)->isOnline()) {
 				it = _clients.erase(it);
@@ -79,7 +79,7 @@ void  SocketServer::loop()
     }
 }
 
-std::vector<std::shared_ptr<SocketClient> > const&	SocketServer::getClients() const 
+std::vector<std::shared_ptr<SocketClient> > const&	SocketServer::getClients() const
 {
 	return _clients;
 }

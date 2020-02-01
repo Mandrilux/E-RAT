@@ -128,14 +128,15 @@ namespace ERat
 		if (it != args.end()) {
 			auto i = std::atoi((*it).c_str());
 
-			if (i < _server.getClients().size()) {
-				_usedClient = _server.getClients()[i];
-				std::cout << "Use client: " << _usedClient->getIp() << std::endl;
-			}
-			else if (_server.getClients().size() > 0){
+			if (_server.getClients().size() > 0 && strcmp((*it).c_str() , "all") == 0){
 				std::cout << "Use all client" << std::endl;
 				_allClient = 1;
 			}
+			else if(i < _server.getClients().size()) {
+				_usedClient = _server.getClients()[i];
+				std::cout << "Use client: " << _usedClient->getIp() << std::endl;
+			}
+
 			else{
 				std::cout << "Nodody clients" << std::endl;
 				return false;

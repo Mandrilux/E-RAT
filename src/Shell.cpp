@@ -39,6 +39,8 @@ namespace ERat
 					++it;
 					++i;
 				}
+				std::cout << "Close server" << std::endl;
+				_server.close();
 				::exit(0);
 			}
 
@@ -53,7 +55,7 @@ namespace ERat
 				std::cout << "[" << _usedClient->getIp() << "]> ";
 			}
 			else if (_allClient == 1){
-				std::cout << "All > ";
+				std::cout << "[All]>";
 			}
 			else {
 				std::cout << "> ";

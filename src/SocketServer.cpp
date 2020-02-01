@@ -20,7 +20,7 @@ void SocketServer::run()
   }
   int enable = 1;
 	setsockopt(_mastersocket, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
-  std::cout << "Socket created" << std::endl;
+  std::cout << "[+] Socket" << std::endl;
 
   sockaddr_in sin = { 0 };
 
@@ -34,15 +34,14 @@ void SocketServer::run()
       exit(errno);
   }
 
-  std::cout << "bind [OK]" << std::endl;
+  std::cout << "[+] Bind" << std::endl;
 
   if(listen(_mastersocket, 32) == SOCKET_ERROR)
   {
       perror("listen()");
       exit(errno);
   }
-
-  std::cout << "Server is running " << std::endl;
+  std::cout << "EPI-RAT Listen " << inet_ntoa(sin.sin_addr) << ":" <<  _port <<  std::endl;
 	this->loop();
 }
 

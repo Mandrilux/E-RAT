@@ -22,6 +22,7 @@ void	SocketClient::start()
 
 void	SocketClient::loop()
 {
+	char	buffer[32624];
 	while (_running) {
 		if (!_messageList.empty())
 		{
@@ -31,6 +32,9 @@ void	SocketClient::loop()
 			if (message.encodeHeader()) {
 				message.encodeData();
 				::write(_fd, message.data(), message.totalSize());
+				auto size = ::read(_fd, buffer, 32623);
+				buffer[size] = '\0';
+				std::cout << buffer << std::endl;
 			}
 		}
 	}
